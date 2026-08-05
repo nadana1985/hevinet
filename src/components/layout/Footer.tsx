@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Clock, ArrowUpRight } from 'lucide-react';
 import type { NavigationItem, SocialLink } from '@/types';
@@ -67,6 +68,11 @@ function SocialIcon({ platform }: { platform: string }) {
  * <Footer />
  */
 export function Footer() {
+  const [year, setYear] = useState(2026);
+  useEffect(() => {
+    setTimeout(() => setYear(new Date().getFullYear()), 0);
+  }, []);
+
   return (
     <footer className="bg-neutral-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -185,7 +191,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-neutral-500">            <p suppressHydrationWarning>
-            &copy; {new Date().getFullYear()} HeviNet Trading. All rights reserved.
+            &copy; {year} HeviNet Trading. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {legalLinks.map((link) => (

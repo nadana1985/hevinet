@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Inter, Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -5,6 +6,7 @@ import { FloatingActions } from '@/components/ui/FloatingActions';
 import { MobileNav } from '@/components/layout/MobileNav';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { PageTransitions } from '@/components/motion/PageTransitions';
 import './globals.css';
 
 /* ── Fonts ──────────────────────────────────────────────────────────────── */
@@ -137,14 +139,18 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col font-body antialiased">
         <ThemeProvider>
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
-          {children}
-          <FloatingActions />
-          <MobileNav />
-          <Analytics />
-          <SpeedInsights />
+          <PageTransitions>
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            {children}
+            <Suspense fallback={null}>
+              <FloatingActions />
+            </Suspense>
+            <MobileNav />
+            <Analytics />
+            <SpeedInsights />
+          </PageTransitions>
         </ThemeProvider>
       </body>
     </html>

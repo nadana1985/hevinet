@@ -2867,6 +2867,66 @@ const SectionHeader = ({ title, subtitle, align = 'center' }: SectionHeaderProps
 
 ---
 
+## 21. AI-Assisted Implementation Guide
+
+To accelerate the transition from the current state to a 10/10 website, the implementation team should utilize advanced AI prompt workflows. This guide provides pre-customized, high-converting prompts specifically tailored for HeviNet's B2B trading model.
+
+### 21.1 The AI Copywriting & Strategy Pipeline
+
+The execution of these prompts must follow a sequential pipeline:
+
+```mermaid
+graph TD
+    P4[Prompt 4: Brand Identity Generator] -->|Voice, Typography & Palette| P1[Prompt 1: Premium Website Strategist]
+    P1 -->|Sitemap & Section Outlines| P3[Prompt 3: Complete Website Blueprint]
+    P3 -->|Wireframes & Hierarchy| P2[Prompt 2: Landing Page That Converts]
+    P2 -->|Copy & Call-to-Actions| P5[Prompt 5: Conversion Rate Optimizer]
+    P5 -->|Polished Deliverables| P6[Prompt 6: Client Website Package]
+```
+
+### 21.2 Customized Prompt Templates for HeviNet
+
+#### 1. Premium Website Strategist
+* **System Persona:** Act as a world-class B2B web designer, UX researcher, conversion copywriter, and global trade brand strategist.
+* **Prompt:**
+  > "My business is HeviNet Trading, a B2B export company sourcing premium Indian products (such as organic spices, agricultural produce, handcrafted toys, and garments) and selling them to wholesale importers in Singapore, Malaysia, and the Middle East. Our goal is to drive high-value wholesale inquiries and bulk order RFQs (Request for Quotes) through our website. 
+  > 
+  > Create a premium website outline that looks like a $4,000 agency build. Write the detailed copy strategy for the Homepage, About Us page, Products page, Markets page, and Contact Us page. Recommend the optimal section order, trust badges, and translation/localization strategy for the Middle East and Southeast Asian markets."
+
+#### 2. Landing Page That Converts (Direct-Response)
+* **System Persona:** Act as an elite B2B direct-response copywriter specializing in international trade.
+* **Prompt:**
+  > "Create a high-converting landing page structure and copy sheet for HeviNet's bulk Spices product category (with specific emphasis on Erode Turmeric Powder, Kashmiri Red Chili Powder, and Pan-India Spices Collection). 
+  > 
+  > Write a powerful headline addressing global buyers, a subheadline highlighting reliable delivery, and copy that addresses crucial B2B import objections (such as quality certification, custom clearance, minimum order quantity [MOQ], packaging standards, and container logistics). Include multiple strategic call-to-actions (e.g., 'Request Bulk Quote & Catalog') and FAQ sections addressing bulk shipping terms (FOB, CIF)."
+
+#### 3. Complete Website Blueprint
+* **System Persona:** Act as an expert product manager and UX architect.
+* **Prompt:**
+  > "Create a complete website blueprint for HeviNet. Include the full sitemap, navigation menu structure (with a mega menu mapping Spices, Kids Toys, Flowers, Tea & Coffee, and Kids Dress), page hierarchy, visual wireframe layout for each section, SEO keyword mapping for global trade, internal linking strategy between product categories and destination markets, and mobile usability specifications. The blueprint must be detailed enough that a Next.js developer can build the entire site layout without ambiguity."
+
+#### 4. Premium Brand Identity Generator
+* **System Persona:** Act as a high-end branding agency specializing in international B2B companies.
+* **Prompt:**
+  > "Build a complete brand identity for HeviNet Trading. Generate a memorable brand story connecting traditional Indian farms and heritage crafts (like Channapatna toys) with modern global supply chains. Provide a mission, vision, unique value proposition (UVP), and tone of voice guidelines (expert, trustworthy, authentic, efficient). Recommend a premium color palette (primary warm terracotta/clay orange with deep slate/charcoal dark mode neutrals), typography scales, visual iconography styles, and styling guidelines that instantly establish credibility with international corporate buyers."
+
+#### 5. Website Conversion Optimizer (CRO)
+* **System Persona:** Act as an elite conversion rate optimization (CRO) auditor.
+* **Prompt:**
+  > "Review HeviNet's lead capture flow. The main goal is to convert visitors into bulk RFQ inquiries. Suggest structural changes to the contact form, CTA buttons, and trust badge layout. Specifically, optimize the contact form to capture buyer company names, destination ports, and estimated monthly volumes, while minimizing form friction. Outline the placement of exit-intent popups offering wholesale catalog downloads and floating WhatsApp chat integration."
+
+#### 6. Complete Client Website Package
+* **System Persona:** Act as a digital agency deliverable manager.
+* **Prompt:**
+  > "Create the complete final package checklist and metadata content for HeviNet. This includes:
+  > 1. SEO titles and meta descriptions for every core route (/about-us, /products, /markets, /contact-us).
+  > 2. Structured JSON-LD LocalBusiness and Exporter schemas.
+  > 3. Standard transactional email copy for RFQ submission confirmations.
+  > 4. B2B blog/insight topics (e.g., 'Navigating Spices Customs in Singapore: An Importer's Guide').
+  > 5. A 20-point pre-launch quality checklist covering mobile responsiveness, WCAG 2.1 AA accessibility contrast, and core web vitals."
+
+---
+
 ## Appendix
 
 ### A. Recommended Tools & Libraries

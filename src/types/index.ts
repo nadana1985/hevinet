@@ -40,6 +40,8 @@ export interface CardProps {
   children: ReactNode;
   className?: string;
   hover?: boolean;
+  glow?: boolean;
+  glass?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 

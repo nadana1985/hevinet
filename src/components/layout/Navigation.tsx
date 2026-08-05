@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
@@ -15,6 +16,10 @@ import {
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import type { NavigationItem, MegaMenuItem } from '@/types';
+
+const CommandBar = dynamic(() => import('@/components/search/CommandBar'), {
+  ssr: false,
+});
 
 const navItems: NavigationItem[] = [
   { label: 'Home', href: '/' },
@@ -73,6 +78,31 @@ interface NavigationProps {
 export function Navigation({ onSearchOpen }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Global keyboard shortcut: Cmd+K / Ctrl+K to open search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (onSearchOpen) {
+          onSearchOpen();
+        } else {
+          setSearchOpen(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onSearchOpen]);
+
+  const handleSearchClick = () => {
+    if (onSearchOpen) {
+      onSearchOpen();
+    } else {
+      setSearchOpen(true);
+    }
+  };
 
   // Close mobile menu when navigating
   const handleNavClick = useCallback(() => {
@@ -219,7 +249,7 @@ export function Navigation({ onSearchOpen }: NavigationProps) {
             <div className="flex items-center gap-2">
               {/* Search Trigger */}
               <button
-                onClick={onSearchOpen}
+                onClick={handleSearchClick}
                 className="p-2 rounded-xl text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
                 aria-label="Search"
                 title="Search (Ctrl+K)"
@@ -343,6 +373,13 @@ export function Navigation({ onSearchOpen }: NavigationProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Standalone Command Bar search overlay */}
+      {!onSearchOpen && (
+        <Suspense fallback={null}>
+          <CommandBar isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+        </Suspense>
+      )}
     </header>
   );
 }

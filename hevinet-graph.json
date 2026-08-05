@@ -3,7 +3,6 @@
   "project": "hevinet-improvement",
   "version": "1.0.0",
   "target": "hevinet.in",
-  
   "config": {
     "execution": "hybrid",
     "validation": {
@@ -18,7 +17,6 @@
       "integration": "sequential"
     }
   },
-
   "globals": {
     "designSystem": {
       "primaryColor": "#F97316",
@@ -39,8 +37,95 @@
       "public": "public"
     }
   },
-
   "nodes": [
+    {
+      "id": "0.1",
+      "name": "brand-identity",
+      "title": "AI Brand Identity & Palette",
+      "description": "Run Prompt 4 (Premium Brand Identity Generator) to generate brand voice guidelines, typography choices, and the terracotta color palette.",
+      "wave": 0,
+      "parallel": false,
+      "file": "src/styles/design-tokens.ts",
+      "type": "planning",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Brand story & tone defined",
+        "Color palette codes generated",
+        "UVP established"
+      ]
+    },
+    {
+      "id": "0.2",
+      "name": "website-strategist",
+      "title": "AI Website Strategist",
+      "description": "Run Prompt 1 (Premium Website Strategist) to establish the structure and page layout guidelines for HeviNet.",
+      "wave": 0,
+      "parallel": false,
+      "dependsOn": [
+        "0.1"
+      ],
+      "type": "planning",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Detailed sitemap generated",
+        "Core page layout guidelines established"
+      ]
+    },
+    {
+      "id": "0.3",
+      "name": "copy-generation",
+      "title": "AI Direct-Response Copywriting",
+      "description": "Run Prompt 2 and 6 to draft direct-response copy for Homepage, Products Showcase, About page, and Contact page.",
+      "wave": 0,
+      "parallel": true,
+      "dependsOn": [
+        "0.2"
+      ],
+      "file": "src/data/copy/copywriter-sheets.md",
+      "type": "copywriting",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Persuasive B2B copy drafted for Hero, Value Props, Products, FAQs, and CTA",
+        "OBjections addressed (MOQ, clearance, shipping terms)"
+      ]
+    },
+    {
+      "id": "0.4",
+      "name": "site-blueprint",
+      "title": "AI Layout Wireframe Blueprint",
+      "description": "Run Prompt 3 to output sitemaps and wireframe layout structures for developer execution.",
+      "wave": 0,
+      "parallel": true,
+      "dependsOn": [
+        "0.2"
+      ],
+      "type": "planning",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Page hierarchy maps generated",
+        "Wireframe layout sections specified"
+      ]
+    },
     {
       "id": "1.1",
       "name": "design-tokens",
@@ -63,6 +148,9 @@
         "Exports shadow system",
         "Exports border radius tokens",
         "No TypeScript errors"
+      ],
+      "dependsOn": [
+        "0.1"
       ]
     },
     {
@@ -120,7 +208,11 @@
       "description": "Create reusable Button component with variants, sizes, loading state, and icons",
       "wave": 2,
       "parallel": true,
-      "dependsOn": ["1.1", "1.2", "1.3"],
+      "dependsOn": [
+        "1.1",
+        "1.2",
+        "1.3"
+      ],
       "file": "src/components/ui/Button.tsx",
       "type": "component",
       "estimate": "20 min",
@@ -148,7 +240,11 @@
       "description": "Create reusable Input component with label, error state, and helper text",
       "wave": 2,
       "parallel": true,
-      "dependsOn": ["1.1", "1.2", "1.3"],
+      "dependsOn": [
+        "1.1",
+        "1.2",
+        "1.3"
+      ],
       "file": "src/components/ui/Input.tsx",
       "type": "component",
       "estimate": "20 min",
@@ -175,7 +271,11 @@
       "description": "Create reusable Card component with padding options and hover effects",
       "wave": 2,
       "parallel": true,
-      "dependsOn": ["1.1", "1.2", "1.3"],
+      "dependsOn": [
+        "1.1",
+        "1.2",
+        "1.3"
+      ],
       "file": "src/components/ui/Card.tsx",
       "type": "component",
       "estimate": "15 min",
@@ -200,7 +300,10 @@
       "description": "Create SectionHeader component for consistent section headings",
       "wave": 2,
       "parallel": true,
-      "dependsOn": ["1.1", "1.2"],
+      "dependsOn": [
+        "1.1",
+        "1.2"
+      ],
       "file": "src/components/ui/SectionHeader.tsx",
       "type": "component",
       "estimate": "10 min",
@@ -225,7 +328,10 @@
       "description": "Create IconButton component for icon-only actions (search, theme toggle, etc.)",
       "wave": 2,
       "parallel": true,
-      "dependsOn": ["1.1", "1.2"],
+      "dependsOn": [
+        "1.1",
+        "1.2"
+      ],
       "file": "src/components/ui/IconButton.tsx",
       "type": "component",
       "estimate": "10 min",
@@ -249,7 +355,9 @@
       "description": "Create ThemeProvider context with light/dark/system support",
       "wave": 3,
       "parallel": false,
-      "dependsOn": ["1.1"],
+      "dependsOn": [
+        "1.1"
+      ],
       "file": "src/contexts/ThemeContext.tsx",
       "type": "layout",
       "estimate": "25 min",
@@ -275,7 +383,10 @@
       "description": "Create animated theme toggle button with sun/moon icons",
       "wave": 3,
       "parallel": true,
-      "dependsOn": ["2.5", "3.1"],
+      "dependsOn": [
+        "2.5",
+        "3.1"
+      ],
       "file": "src/components/theme/ThemeToggle.tsx",
       "type": "component",
       "estimate": "15 min",
@@ -301,7 +412,11 @@
       "description": "Create search modal with keyboard shortcut support",
       "wave": 3,
       "parallel": true,
-      "dependsOn": ["2.1", "2.2", "3.1"],
+      "dependsOn": [
+        "2.1",
+        "2.2",
+        "3.1"
+      ],
       "file": "src/components/search/SearchModal.tsx",
       "type": "component",
       "estimate": "30 min",
@@ -329,7 +444,12 @@
       "description": "Redesign navigation with mega menu, search trigger, and mobile hamburger",
       "wave": 3,
       "parallel": true,
-      "dependsOn": ["2.1", "2.4", "2.5", "3.2"],
+      "dependsOn": [
+        "2.1",
+        "2.4",
+        "2.5",
+        "3.2"
+      ],
       "file": "src/components/layout/Navigation.tsx",
       "type": "layout",
       "estimate": "40 min",
@@ -358,7 +478,11 @@
       "description": "Redesign footer with company info, links, and social media",
       "wave": 3,
       "parallel": true,
-      "dependsOn": ["2.1", "2.4", "3.1"],
+      "dependsOn": [
+        "2.1",
+        "2.4",
+        "3.1"
+      ],
       "file": "src/components/layout/Footer.tsx",
       "type": "layout",
       "estimate": "25 min",
@@ -388,7 +512,14 @@
       "description": "Create modern hero section with gradient, headline, and CTAs",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.1", "2.4", "3.1", "3.4"],
+      "dependsOn": [
+        "2.1",
+        "2.4",
+        "3.1",
+        "3.4",
+        "0.3",
+        "0.4"
+      ],
       "file": "src/components/sections/Hero.tsx",
       "type": "section",
       "estimate": "30 min",
@@ -414,7 +545,10 @@
       "description": "Create trust bar showing client logos with grayscale hover effect",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.4", "3.1"],
+      "dependsOn": [
+        "2.4",
+        "3.1"
+      ],
       "file": "src/components/sections/TrustBar.tsx",
       "type": "section",
       "estimate": "15 min",
@@ -439,7 +573,12 @@
       "description": "Create value proposition cards showing key benefits",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.3", "2.4", "3.1"],
+      "dependsOn": [
+        "2.3",
+        "2.4",
+        "3.1",
+        "0.3"
+      ],
       "file": "src/components/sections/ValueProps.tsx",
       "type": "section",
       "estimate": "20 min",
@@ -464,7 +603,12 @@
       "description": "Create product showcase grid with cards",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.3", "2.4", "3.1"],
+      "dependsOn": [
+        "2.3",
+        "2.4",
+        "3.1",
+        "0.3"
+      ],
       "file": "src/components/sections/FeaturedProducts.tsx",
       "type": "section",
       "estimate": "25 min",
@@ -490,7 +634,11 @@
       "description": "Create testimonials carousel or grid with client quotes",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.3", "2.4", "3.1"],
+      "dependsOn": [
+        "2.3",
+        "2.4",
+        "3.1"
+      ],
       "file": "src/components/sections/Testimonials.tsx",
       "type": "section",
       "estimate": "25 min",
@@ -516,7 +664,9 @@
       "description": "Create animated statistics counter with gradient background",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["3.1"],
+      "dependsOn": [
+        "3.1"
+      ],
       "file": "src/components/sections/StatsCounter.tsx",
       "type": "section",
       "estimate": "20 min",
@@ -540,7 +690,12 @@
       "description": "Create CTA section with gradient background and lead capture",
       "wave": 4,
       "parallel": true,
-      "dependsOn": ["2.1", "2.4", "3.1"],
+      "dependsOn": [
+        "2.1",
+        "2.4",
+        "3.1",
+        "0.3"
+      ],
       "file": "src/components/sections/CTASection.tsx",
       "type": "section",
       "estimate": "20 min",
@@ -564,7 +719,17 @@
       "description": "Compose all sections into the homepage layout",
       "wave": 5,
       "parallel": false,
-      "dependsOn": ["3.4", "3.5", "4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7"],
+      "dependsOn": [
+        "3.4",
+        "3.5",
+        "4.1",
+        "4.2",
+        "4.3",
+        "4.4",
+        "4.5",
+        "4.6",
+        "4.7"
+      ],
       "file": "src/app/page.tsx",
       "type": "integration",
       "estimate": "15 min",
@@ -594,7 +759,9 @@
       "description": "Update root layout with ThemeProvider, fonts, and metadata",
       "wave": 5,
       "parallel": false,
-      "dependsOn": ["3.1"],
+      "dependsOn": [
+        "3.1"
+      ],
       "file": "src/app/layout.tsx",
       "type": "integration",
       "estimate": "15 min",
@@ -618,7 +785,9 @@
       "description": "Update globals.css with CSS variables and dark mode support",
       "wave": 5,
       "parallel": false,
-      "dependsOn": ["1.1"],
+      "dependsOn": [
+        "1.1"
+      ],
       "file": "src/app/globals.css",
       "type": "integration",
       "estimate": "20 min",
@@ -643,7 +812,9 @@
       "description": "Create useScrollAnimation hook for intersection observer",
       "wave": 6,
       "parallel": true,
-      "dependsOn": ["5.1"],
+      "dependsOn": [
+        "5.1"
+      ],
       "file": "src/hooks/useScrollAnimation.ts",
       "type": "enhancement",
       "estimate": "15 min",
@@ -668,7 +839,9 @@
       "description": "Create useAnimatedCounter hook for statistics",
       "wave": 6,
       "parallel": true,
-      "dependsOn": ["5.1"],
+      "dependsOn": [
+        "5.1"
+      ],
       "file": "src/hooks/useAnimatedCounter.ts",
       "type": "enhancement",
       "estimate": "10 min",
@@ -692,7 +865,9 @@
       "description": "Create reusable motion wrapper components",
       "wave": 6,
       "parallel": true,
-      "dependsOn": ["5.1"],
+      "dependsOn": [
+        "5.1"
+      ],
       "file": "src/components/motion/index.tsx",
       "type": "enhancement",
       "estimate": "20 min",
@@ -718,7 +893,9 @@
       "description": "Create JSON-LD components for SEO",
       "wave": 7,
       "parallel": true,
-      "dependsOn": ["5.2"],
+      "dependsOn": [
+        "5.2"
+      ],
       "file": "src/components/seo/JsonLd.tsx",
       "type": "seo",
       "estimate": "15 min",
@@ -742,7 +919,9 @@
       "description": "Create dynamic sitemap.xml generator",
       "wave": 7,
       "parallel": true,
-      "dependsOn": ["5.2"],
+      "dependsOn": [
+        "5.2"
+      ],
       "file": "src/app/sitemap.ts",
       "type": "seo",
       "estimate": "10 min",
@@ -766,7 +945,9 @@
       "description": "Create robots.txt with Next.js",
       "wave": 7,
       "parallel": true,
-      "dependsOn": ["5.2"],
+      "dependsOn": [
+        "5.2"
+      ],
       "file": "src/app/robots.ts",
       "type": "seo",
       "estimate": "5 min",
@@ -784,121 +965,342 @@
       ]
     }
   ],
-
   "edges": [
-    {"from": "1.1", "to": "2.1"},
-    {"from": "1.1", "to": "2.2"},
-    {"from": "1.1", "to": "2.3"},
-    {"from": "1.1", "to": "2.4"},
-    {"from": "1.1", "to": "2.5"},
-    {"from": "1.1", "to": "3.1"},
-    {"from": "1.1", "to": "5.3"},
-    {"from": "1.2", "to": "2.1"},
-    {"from": "1.2", "to": "2.2"},
-    {"from": "1.2", "to": "2.3"},
-    {"from": "1.2", "to": "2.4"},
-    {"from": "1.2", "to": "2.5"},
-    {"from": "1.3", "to": "2.1"},
-    {"from": "1.3", "to": "2.2"},
-    {"from": "1.3", "to": "2.3"},
-    {"from": "2.1", "to": "3.3"},
-    {"from": "2.1", "to": "3.4"},
-    {"from": "2.1", "to": "4.1"},
-    {"from": "2.1", "to": "4.7"},
-    {"from": "2.2", "to": "3.3"},
-    {"from": "2.3", "to": "4.3"},
-    {"from": "2.3", "to": "4.4"},
-    {"from": "2.3", "to": "4.5"},
-    {"from": "2.4", "to": "3.4"},
-    {"from": "2.4", "to": "3.5"},
-    {"from": "2.4", "to": "4.1"},
-    {"from": "2.4", "to": "4.2"},
-    {"from": "2.4", "to": "4.3"},
-    {"from": "2.4", "to": "4.4"},
-    {"from": "2.4", "to": "4.5"},
-    {"from": "2.4", "to": "4.7"},
-    {"from": "2.5", "to": "3.2"},
-    {"from": "3.1", "to": "3.2"},
-    {"from": "3.1", "to": "3.3"},
-    {"from": "3.1", "to": "3.4"},
-    {"from": "3.1", "to": "3.5"},
-    {"from": "3.1", "to": "4.1"},
-    {"from": "3.1", "to": "4.2"},
-    {"from": "3.1", "to": "4.3"},
-    {"from": "3.1", "to": "4.4"},
-    {"from": "3.1", "to": "4.5"},
-    {"from": "3.1", "to": "4.6"},
-    {"from": "3.1", "to": "4.7"},
-    {"from": "3.1", "to": "5.2"},
-    {"from": "3.1", "to": "5.3"},
-    {"from": "3.2", "to": "3.4"},
-    {"from": "3.4", "to": "5.1"},
-    {"from": "3.5", "to": "5.1"},
-    {"from": "4.1", "to": "5.1"},
-    {"from": "4.2", "to": "5.1"},
-    {"from": "4.3", "to": "5.1"},
-    {"from": "4.4", "to": "5.1"},
-    {"from": "4.5", "to": "5.1"},
-    {"from": "4.6", "to": "5.1"},
-    {"from": "4.7", "to": "5.1"},
-    {"from": "5.1", "to": "6.1"},
-    {"from": "5.1", "to": "6.2"},
-    {"from": "5.1", "to": "6.3"},
-    {"from": "5.2", "to": "7.1"},
-    {"from": "5.2", "to": "7.2"},
-    {"from": "5.2", "to": "7.3"}
+    {
+      "from": "1.1",
+      "to": "2.1"
+    },
+    {
+      "from": "1.1",
+      "to": "2.2"
+    },
+    {
+      "from": "1.1",
+      "to": "2.3"
+    },
+    {
+      "from": "1.1",
+      "to": "2.4"
+    },
+    {
+      "from": "1.1",
+      "to": "2.5"
+    },
+    {
+      "from": "1.1",
+      "to": "3.1"
+    },
+    {
+      "from": "1.1",
+      "to": "5.3"
+    },
+    {
+      "from": "1.2",
+      "to": "2.1"
+    },
+    {
+      "from": "1.2",
+      "to": "2.2"
+    },
+    {
+      "from": "1.2",
+      "to": "2.3"
+    },
+    {
+      "from": "1.2",
+      "to": "2.4"
+    },
+    {
+      "from": "1.2",
+      "to": "2.5"
+    },
+    {
+      "from": "1.3",
+      "to": "2.1"
+    },
+    {
+      "from": "1.3",
+      "to": "2.2"
+    },
+    {
+      "from": "1.3",
+      "to": "2.3"
+    },
+    {
+      "from": "2.1",
+      "to": "3.3"
+    },
+    {
+      "from": "2.1",
+      "to": "3.4"
+    },
+    {
+      "from": "2.1",
+      "to": "4.1"
+    },
+    {
+      "from": "2.1",
+      "to": "4.7"
+    },
+    {
+      "from": "2.2",
+      "to": "3.3"
+    },
+    {
+      "from": "2.3",
+      "to": "4.3"
+    },
+    {
+      "from": "2.3",
+      "to": "4.4"
+    },
+    {
+      "from": "2.3",
+      "to": "4.5"
+    },
+    {
+      "from": "2.4",
+      "to": "3.4"
+    },
+    {
+      "from": "2.4",
+      "to": "3.5"
+    },
+    {
+      "from": "2.4",
+      "to": "4.1"
+    },
+    {
+      "from": "2.4",
+      "to": "4.2"
+    },
+    {
+      "from": "2.4",
+      "to": "4.3"
+    },
+    {
+      "from": "2.4",
+      "to": "4.4"
+    },
+    {
+      "from": "2.4",
+      "to": "4.5"
+    },
+    {
+      "from": "2.4",
+      "to": "4.7"
+    },
+    {
+      "from": "2.5",
+      "to": "3.2"
+    },
+    {
+      "from": "3.1",
+      "to": "3.2"
+    },
+    {
+      "from": "3.1",
+      "to": "3.3"
+    },
+    {
+      "from": "3.1",
+      "to": "3.4"
+    },
+    {
+      "from": "3.1",
+      "to": "3.5"
+    },
+    {
+      "from": "3.1",
+      "to": "4.1"
+    },
+    {
+      "from": "3.1",
+      "to": "4.2"
+    },
+    {
+      "from": "3.1",
+      "to": "4.3"
+    },
+    {
+      "from": "3.1",
+      "to": "4.4"
+    },
+    {
+      "from": "3.1",
+      "to": "4.5"
+    },
+    {
+      "from": "3.1",
+      "to": "4.6"
+    },
+    {
+      "from": "3.1",
+      "to": "4.7"
+    },
+    {
+      "from": "3.1",
+      "to": "5.2"
+    },
+    {
+      "from": "3.1",
+      "to": "5.3"
+    },
+    {
+      "from": "3.2",
+      "to": "3.4"
+    },
+    {
+      "from": "3.4",
+      "to": "5.1"
+    },
+    {
+      "from": "3.5",
+      "to": "5.1"
+    },
+    {
+      "from": "4.1",
+      "to": "5.1"
+    },
+    {
+      "from": "4.2",
+      "to": "5.1"
+    },
+    {
+      "from": "4.3",
+      "to": "5.1"
+    },
+    {
+      "from": "4.4",
+      "to": "5.1"
+    },
+    {
+      "from": "4.5",
+      "to": "5.1"
+    },
+    {
+      "from": "4.6",
+      "to": "5.1"
+    },
+    {
+      "from": "4.7",
+      "to": "5.1"
+    },
+    {
+      "from": "5.1",
+      "to": "6.1"
+    },
+    {
+      "from": "5.1",
+      "to": "6.2"
+    },
+    {
+      "from": "5.1",
+      "to": "6.3"
+    },
+    {
+      "from": "5.2",
+      "to": "7.1"
+    },
+    {
+      "from": "5.2",
+      "to": "7.2"
+    },
+    {
+      "from": "5.2",
+      "to": "7.3"
+    }
   ],
-
   "waves": {
     "1": {
       "name": "Foundation",
       "execution": "sequential",
-      "nodes": ["1.1", "1.2", "1.3"],
+      "nodes": [
+        "1.1",
+        "1.2",
+        "1.3"
+      ],
       "description": "Design tokens, types, and utilities"
     },
     "2": {
       "name": "Base Components",
       "execution": "parallel",
-      "nodes": ["2.1", "2.2", "2.3", "2.4", "2.5"],
+      "nodes": [
+        "2.1",
+        "2.2",
+        "2.3",
+        "2.4",
+        "2.5"
+      ],
       "description": "UI component library"
     },
     "3": {
       "name": "Layout & Theme",
       "execution": "parallel",
-      "nodes": ["3.1", "3.2", "3.3", "3.4", "3.5"],
+      "nodes": [
+        "3.1",
+        "3.2",
+        "3.3",
+        "3.4",
+        "3.5"
+      ],
       "description": "Theme system, navigation, footer"
     },
     "4": {
       "name": "Page Sections",
       "execution": "parallel",
-      "nodes": ["4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7"],
+      "nodes": [
+        "4.1",
+        "4.2",
+        "4.3",
+        "4.4",
+        "4.5",
+        "4.6",
+        "4.7"
+      ],
       "description": "Homepage sections"
     },
     "5": {
       "name": "Integration",
       "execution": "sequential",
-      "nodes": ["5.1", "5.2", "5.3"],
+      "nodes": [
+        "5.1",
+        "5.2",
+        "5.3"
+      ],
       "description": "Compose homepage and update globals"
     },
     "6": {
       "name": "Animations",
       "execution": "parallel",
-      "nodes": ["6.1", "6.2", "6.3"],
+      "nodes": [
+        "6.1",
+        "6.2",
+        "6.3"
+      ],
       "description": "Hooks and motion components"
     },
     "7": {
       "name": "SEO",
       "execution": "parallel",
-      "nodes": ["7.1", "7.2", "7.3"],
+      "nodes": [
+        "7.1",
+        "7.2",
+        "7.3"
+      ],
       "description": "Structured data and sitemap"
     }
   },
-
   "stats": {
     "totalNodes": 32,
     "totalWaves": 7,
     "estimatedTime": "6-8 hours",
     "parallelizableNodes": 24,
-    "criticalPath": ["1.1", "3.1", "3.4", "5.1"]
+    "criticalPath": [
+      "1.1",
+      "3.1",
+      "3.4",
+      "5.1"
+    ]
   }
 }

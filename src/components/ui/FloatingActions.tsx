@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { FloatingButtons } from './FloatingButtons';
 import { ChatBot } from '@/components/chatbot/ChatBot';
 
@@ -20,10 +20,12 @@ export function FloatingActions() {
         onChatToggle={setIsChatOpen}
         isChatOpen={isChatOpen}
       />
-      <ChatBot
-        isOpen={isChatOpen}
-        onToggle={setIsChatOpen}
-      />
+      <Suspense fallback={null}>
+        <ChatBot
+          isOpen={isChatOpen}
+          onToggle={setIsChatOpen}
+        />
+      </Suspense>
     </>
   );
 }

@@ -1,0 +1,1016 @@
+{
+  "$schema": "./graph-schema.json",
+  "project": "<PROJECT_NAME>-modern-2026",
+  "version": "1.0.0",
+  "target": "<TARGET_DOMAIN>",
+  
+  "config": {
+    "execution": "hybrid",
+    "validation": {
+      "typescript": true,
+      "tests": true,
+      "visual": true
+    },
+    "parallelism": {
+      "foundation": "sequential",
+      "components": "parallel",
+      "sections": "parallel",
+      "integration": "sequential"
+    }
+  },
+
+  "globals": {
+    "designSystem": {
+      "primaryColor": "<PRIMARY_THEME_COLOR_HEX>",
+      "fontFamily": {
+        "display": "<DISPLAY_FONT_FAMILY>",
+        "body": "<BODY_FONT_FAMILY>"
+      },
+      "borderRadius": "0.75rem",
+      "spacingUnit": "8px"
+    },
+    "paths": {
+      "components": "src/components",
+      "styles": "src/styles",
+      "lib": "src/lib",
+      "hooks": "src/hooks",
+      "types": "src/types",
+      "tests": "__tests__",
+      "public": "public"
+    }
+  },
+
+  "nodes": [
+    {
+      "id": "1.1",
+      "name": "design-tokens",
+      "title": "Design Tokens (Tailwind v4)",
+      "description": "Define design system tokens using Tailwind CSS v4 CSS-first configuration, including color scales, fluid typography, custom shadows, and glassmorphism properties.",
+      "wave": 1,
+      "parallel": false,
+      "file": "src/styles/tokens.css",
+      "type": "foundation",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Uses Tailwind v4 @theme directive in css instead of tailwind.config.js",
+        "Exports premium design theme colors with CSS variables",
+        "Configures fluid typography using modern clamping rules",
+        "Establishes glassmorphism utilities (--glass-bg, --glass-border)"
+      ]
+    },
+    {
+      "id": "1.2",
+      "name": "types",
+      "title": "Shared Types & Interfaces",
+      "description": "Create global TypeScript interfaces and type definitions for state, component props, and AI data structures.",
+      "wave": 1,
+      "parallel": false,
+      "file": "src/types/index.ts",
+      "type": "foundation",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Defines types for key layout components (Nav, Footer, Theme)",
+        "Defines structure for AI chat messages and completions",
+        "No TypeScript compilation errors"
+      ]
+    },
+    {
+      "id": "1.3",
+      "name": "utils",
+      "title": "Utility Functions",
+      "description": "Create common helper utilities for conditionally merging Tailwind classes and formatting data.",
+      "wave": 1,
+      "parallel": false,
+      "file": "src/lib/utils.ts",
+      "type": "foundation",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Exports cn() utility combining clsx and tailwind-merge",
+        "Exports formatting helpers (currency, dates, number formatting)",
+        "Test coverage confirms correct class precedence merging"
+      ],
+      "testFile": "src/lib/__tests__/utils.test.ts"
+    },
+    {
+      "id": "1.4",
+      "name": "ai-setup",
+      "title": "Vercel AI SDK Client",
+      "description": "Initialize Vercel AI SDK integration client, configuring client/server interfaces for LLM completions, stream rendering, and structured JSON parsing.",
+      "wave": 1,
+      "parallel": false,
+      "file": "src/lib/ai.ts",
+      "type": "foundation",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Configures model routing and default prompts",
+        "Sets up client utilities to consume server streaming endpoints safely",
+        "Supports markdown streaming content parsing"
+      ],
+      "testFile": "src/lib/__tests__/ai.test.ts"
+    },
+    {
+      "id": "1.5",
+      "name": "ai-middleware",
+      "title": "AI Rate-Limiting & WAF Middleware",
+      "description": "Implement request rate-limiting middleware and prompt-injection firewalls to prevent API abuse and cost overflows.",
+      "wave": 1,
+      "parallel": false,
+      "dependsOn": ["1.4"],
+      "file": "src/middleware.ts",
+      "type": "foundation",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Intercepts requests to /api/chat and enforces dynamic IP/session rate limits",
+        "Filters prompts containing key injection payloads or toxic instructions prior to LLM routing",
+        "Handles rate-limit exhaustion by returning standard HTTP 429 response structures"
+      ],
+      "testFile": "src/__tests__/middleware.test.ts"
+    },
+    {
+      "id": "2.1",
+      "name": "button",
+      "title": "Button Component",
+      "description": "Create reusable Button component supporting variants, sizes, and React 19 useFormStatus hooks for form actions.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2", "1.3"],
+      "file": "src/components/ui/Button.tsx",
+      "type": "component",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Supports primary, secondary, ghost, glass, and danger variants",
+        "Supports size scaling (sm, md, lg)",
+        "Integrates seamlessly with React 19 form submission loading states",
+        "Passes WCAG AA contrast and screen reader accessibility guidelines"
+      ],
+      "testFile": "src/components/ui/__tests__/Button.test.tsx"
+    },
+    {
+      "id": "2.2",
+      "name": "input",
+      "title": "Input Component",
+      "description": "Create accessible interactive Input component with built-in validation states.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2", "1.3"],
+      "file": "src/components/ui/Input.tsx",
+      "type": "component",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Renders label with correct htmlFor mapping",
+        "Supports dynamic validation error messages with aria-invalid tags",
+        "Maintains responsive padding and consistent border-radius tokens"
+      ],
+      "testFile": "src/components/ui/__tests__/Input.test.tsx"
+    },
+    {
+      "id": "2.3",
+      "name": "card",
+      "title": "Reusable Polished Card Component",
+      "description": "Create reusable Card component supporting dynamic cursor-tracking radial glow effects, glassmorphic filters, and hover lift styles.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2", "1.3"],
+      "file": "src/components/ui/Card.tsx",
+      "type": "component",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Supports padding configurations (none, sm, md, lg)",
+        "Applies smooth CSS hover translation lift and elevation shadow transitions",
+        "Implements optional glassmorphism backing (backdrop-blur-md, borders, shadow-sm)",
+        "Implements cursor hover-tracking radial gradient glow mapping (--glow-x, --glow-y)",
+        "Gracefully disables hover transformations and pointer tracking if prefers-reduced-motion is active"
+      ],
+      "testFile": "src/components/ui/__tests__/Card.test.tsx"
+    },
+    {
+      "id": "2.4",
+      "name": "section-header",
+      "title": "Section Header Component",
+      "description": "Create customizable SectionHeader for consistent and readable title structures.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2"],
+      "file": "src/components/ui/SectionHeader.tsx",
+      "type": "component",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Renders clean h2 title and optional descriptive subtitle",
+        "Supports alignment variants (left, center, right)"
+      ],
+      "testFile": "src/components/ui/__tests__/SectionHeader.test.tsx"
+    },
+    {
+      "id": "2.5",
+      "name": "icon-button",
+      "title": "Icon Button Component",
+      "description": "Create accessible IconButton wrapper for icon-only actions.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2"],
+      "file": "src/components/ui/IconButton.tsx",
+      "type": "component",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Wraps interactive icon in button element with aria-label",
+        "Supports standard color states (hover, focus, disabled)"
+      ],
+      "testFile": "src/components/ui/__tests__/IconButton.test.tsx"
+    },
+    {
+      "id": "2.6",
+      "name": "ai-chat-bubble",
+      "title": "AI Assistant Message Bubble",
+      "description": "Create responsive AI message block supporting streaming text Markdown rendering, user/assistant styling, and code syntax highlighting.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2", "1.4"],
+      "file": "src/components/ui/AIChatBubble.tsx",
+      "type": "component",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Safely renders HTML/Markdown from streaming chunks",
+        "Styles user and AI messages distinctively using design tokens",
+        "Syntax highlights code fragments"
+      ],
+      "testFile": "src/components/ui/__tests__/AIChatBubble.test.tsx"
+    },
+    {
+      "id": "2.7",
+      "name": "accordion",
+      "title": "Polished Accordion Component",
+      "description": "Create reusable Accordion component with dynamic CSS Grid-rows height transition to eliminate animation lag.",
+      "wave": 2,
+      "parallel": true,
+      "dependsOn": ["1.1", "1.2"],
+      "file": "src/components/ui/Accordion.tsx",
+      "type": "component",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Implements CSS Grid rows transition (grid-rows-[0fr] to grid-rows-[1fr]) for smooth, lag-free height animation",
+        "Supports multi-expand configurations (allowMultiple)",
+        "Correctly manages aria-expanded state for accessibility"
+      ]
+    },
+    {
+      "id": "3.1",
+      "name": "theme-provider",
+      "title": "Modern Theme Provider",
+      "description": "Create React 19 client context provider supporting local storage syncing and system preference listeners.",
+      "wave": 3,
+      "parallel": false,
+      "dependsOn": ["1.1"],
+      "file": "src/contexts/ThemeContext.tsx",
+      "type": "layout",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Provides context to update document root element classes",
+        "Supports light, dark, and system configurations",
+        "Syncs dynamically with prefers-color-scheme media query changes"
+      ],
+      "testFile": "src/contexts/__tests__/ThemeContext.test.tsx"
+    },
+    {
+      "id": "3.2",
+      "name": "theme-toggle",
+      "title": "Animated Theme Toggler",
+      "description": "Create smooth animated theme toggle button using Motion (Framer Motion v12) to swap sun/moon icons.",
+      "wave": 3,
+      "parallel": true,
+      "dependsOn": ["2.5", "3.1"],
+      "file": "src/components/theme/ThemeToggle.tsx",
+      "type": "component",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Switches application theme states on interaction",
+        "Micro-animations trigger on toggle event"
+      ],
+      "testFile": "src/components/theme/__tests__/ThemeToggle.test.tsx"
+    },
+    {
+      "id": "3.3",
+      "name": "command-bar",
+      "title": "Command Bar Menu (Cmd+K)",
+      "description": "Implement Cmd+K command bar menu supporting navigation shortcuts, local fuzzy search, theme switching, and AI command execution.",
+      "wave": 3,
+      "parallel": true,
+      "dependsOn": ["2.1", "2.2", "3.1"],
+      "file": "src/components/search/CommandBar.tsx",
+      "type": "component",
+      "estimate": "35 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Opens overlay on Cmd+K/Ctrl+K keyboard shortcut",
+        "Locks focus inside command bar when active and allows keyboard arrow navigation",
+        "Integrates direct actions for quick page navigation"
+      ],
+      "testFile": "src/components/search/__tests__/CommandBar.test.tsx"
+    },
+    {
+      "id": "3.4",
+      "name": "navigation",
+      "title": "Sticky Navigation Header",
+      "description": "Build sticky top header navigation with responsive drawer and sliding hover indicators.",
+      "wave": 3,
+      "parallel": true,
+      "dependsOn": ["2.1", "2.4", "2.5", "3.2"],
+      "file": "src/components/layout/Navigation.tsx",
+      "type": "layout",
+      "estimate": "40 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Nav bar remains sticky at top with glassmorphic backing filter",
+        "Desktop mega menus open on hover with smooth fade-in",
+        "Mobile viewport exposes fully-functional slide-out drawer"
+      ],
+      "testFile": "src/components/layout/__tests__/Navigation.test.tsx"
+    },
+    {
+      "id": "3.5",
+      "name": "footer",
+      "title": "Semantic Footer Layout",
+      "description": "Create grid footer layout organizing copyright, site paths, social iconography, and contact details.",
+      "wave": 3,
+      "parallel": true,
+      "dependsOn": ["2.1", "2.4", "3.1"],
+      "file": "src/components/layout/Footer.tsx",
+      "type": "layout",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Organizes details in clean responsive column-grid layout",
+        "Lists working legal links (Privacy Policy, Terms of Service)"
+      ],
+      "testFile": "src/components/layout/__tests__/Footer.test.tsx"
+    },
+    {
+      "id": "4.1",
+      "name": "hero-section",
+      "title": "Interactive Hero Section",
+      "description": "Develop high-impact landing hero layout with dynamic animated headers, responsive grids, and clean visual graphics.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.1", "2.4", "3.1", "3.4"],
+      "file": "src/components/sections/Hero.tsx",
+      "type": "section",
+      "estimate": "35 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Features responsive title, body, and call-to-action buttons",
+        "Uses next/image or vectorized elements optimized for LCP speed",
+        "Responsive grid alignment across mobile, tablet, and desktop"
+      ]
+    },
+    {
+      "id": "4.2",
+      "name": "trust-bar",
+      "title": "Scrolling Trust Bar",
+      "description": "Create trust logo row featuring partners/clients with auto-scroll and subtle grayscale filters.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.4", "3.1"],
+      "file": "src/components/sections/TrustBar.tsx",
+      "type": "section",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Displays continuous infinite logo scroll animation",
+        "Implements interactive grayscale-to-color transition on hover"
+      ]
+    },
+    {
+      "id": "4.3",
+      "name": "value-props",
+      "title": "Value Propositions Grid",
+      "description": "Implement grid showcasing feature/benefit cards with responsive breakpoints.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.3", "2.4", "3.1"],
+      "file": "src/components/sections/ValueProps.tsx",
+      "type": "section",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Displays responsive grid of cards built with Card component",
+        "Renders unique accessible SVG icon, title, and copy per card"
+      ]
+    },
+    {
+      "id": "4.4",
+      "name": "features-showcase",
+      "title": "Features Showcase Grid",
+      "description": "Create feature presentation section supporting interactive filters or tab switches.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.3", "2.4", "3.1"],
+      "file": "src/components/sections/FeaturesShowcase.tsx",
+      "type": "section",
+      "estimate": "30 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Enables interactive tab selection to toggle feature sets",
+        "Layout structures shift cleanly without layout shift glitches"
+      ]
+    },
+    {
+      "id": "4.5",
+      "name": "testimonials",
+      "title": "Testimonials Carousel",
+      "description": "Create animated customer review slider with author avatars and rating markers.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.3", "2.4", "3.1"],
+      "file": "src/components/sections/Testimonials.tsx",
+      "type": "section",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Allows carousel swiping (via embla-carousel or touch handlers)",
+        "Includes star-rating visual and verified tag indicators"
+      ]
+    },
+    {
+      "id": "4.6",
+      "name": "stats-counter",
+      "title": "Statistics Counter Row",
+      "description": "Create statistics counter section with numbers that count up when scrolled into view.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["3.1"],
+      "file": "src/components/sections/StatsCounter.tsx",
+      "type": "section",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Renders key stat points that increment when scrolled into view",
+        "Maintains readable layout even if javascript loading is delayed"
+      ]
+    },
+    {
+      "id": "4.7",
+      "name": "ai-playground",
+      "title": "AI Interactive Playground",
+      "description": "Build interactive AI Playground section demonstrating real-time streaming response, prompt presets, and visual output rendering.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.2", "2.6", "3.1", "1.4"],
+      "file": "src/components/sections/AIPlayground.tsx",
+      "type": "section",
+      "estimate": "45 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Allows users to type or click preset prompts to trigger stream API calls",
+        "Displays real-time streaming outputs with clean typewriter styling",
+        "Implements input character limits and loading state disabled locks"
+      ]
+    },
+    {
+      "id": "4.8",
+      "name": "cta-section",
+      "title": "Call-to-Action Section",
+      "description": "Create primary high-impact conversion banner containing action prompts and lead capture.",
+      "wave": 4,
+      "parallel": true,
+      "dependsOn": ["2.1", "2.2", "2.4", "3.1"],
+      "file": "src/components/sections/CTASection.tsx",
+      "type": "section",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Renders centered subscription/consultation form",
+        "Successfully processes form state transitions using React 19 useActionState"
+      ]
+    },
+    {
+      "id": "5.1",
+      "name": "homepage-composition",
+      "title": "Homepage Integration",
+      "description": "Compose all structured page sections into the root homepage template file.",
+      "wave": 5,
+      "parallel": false,
+      "dependsOn": ["3.4", "3.5", "4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7", "4.8"],
+      "file": "src/app/page.tsx",
+      "type": "integration",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Integrates page sections in logical semantic outline flow",
+        "Layout displays zero visual overlap or formatting breakages"
+      ]
+    },
+    {
+      "id": "5.2",
+      "name": "layout-update",
+      "title": "Root App Layout",
+      "description": "Update application root layout setting up providers, body wrapper classes, and static global metadata.",
+      "wave": 5,
+      "parallel": false,
+      "dependsOn": ["3.1"],
+      "file": "src/app/layout.tsx",
+      "type": "integration",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Wraps layout in ThemeProvider and includes modern Google Fonts",
+        "Defines default responsive metadata header objects (title, description, icons)"
+      ]
+    },
+    {
+      "id": "5.3",
+      "name": "global-css",
+      "title": "Global Styles Integration",
+      "description": "Update global stylesheets with modern CSS variables, base resets, and custom scrollbar styles.",
+      "wave": 5,
+      "parallel": false,
+      "dependsOn": ["1.1"],
+      "file": "src/app/globals.css",
+      "type": "integration",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": false,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Imports Tailwind v4 styles correctly",
+        "Configures global background/foreground colors respecting theme transitions"
+      ]
+    },
+    {
+      "id": "5.4",
+      "name": "suspense-ppr",
+      "title": "Partial Prerendering (PPR) & Suspense Shells",
+      "description": "Configure Next.js 15 Partial Prerendering (PPR) and wrap dynamic widgets (Chatbot, Search) in React Suspense boundaries.",
+      "wave": 5,
+      "parallel": false,
+      "dependsOn": ["5.1", "5.2"],
+      "file": "src/app/page.tsx",
+      "type": "integration",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": true
+      },
+      "acceptance": [
+        "Wraps dynamic widgets (ChatBot, CommandBar) in React Suspense loading boundaries",
+        "Enables experimental PPR flags in Next.js config for instant static HTML delivery",
+        "Passes runtime hydration audits without layout layout shifts"
+      ]
+    },
+    {
+      "id": "6.1",
+      "name": "view-transitions",
+      "title": "View Transitions & Route Transitions",
+      "description": "Implement smooth page/route transitions utilizing the View Transitions API or Framer Motion layout animations.",
+      "wave": 6,
+      "parallel": true,
+      "dependsOn": ["5.1"],
+      "file": "src/components/motion/PageTransitions.tsx",
+      "type": "enhancement",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Uses native document.startViewTransition wrapper when available",
+        "Gracefully falls back to CSS/JS opacity transitions in legacy browsers",
+        "Page changes operate without layout shifts"
+      ],
+      "testFile": "src/components/motion/__tests__/PageTransitions.test.tsx"
+    },
+    {
+      "id": "6.2",
+      "name": "counter-hook",
+      "title": "Animated Counter Hook",
+      "description": "Create custom React hook for linear count-up numbers in stat counters.",
+      "wave": 6,
+      "parallel": true,
+      "dependsOn": ["5.1"],
+      "file": "src/hooks/useAnimatedCounter.ts",
+      "type": "enhancement",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Hook increments numeric values smoothly matching target timing parameters",
+        "Supports floating-point and integer formats"
+      ],
+      "testFile": "src/hooks/__tests__/useAnimatedCounter.test.ts"
+    },
+    {
+      "id": "6.3",
+      "name": "scroll-revealer",
+      "title": "Scroll-Driven Reveal Animation",
+      "description": "Create animation wrapper using intersection observers or native CSS scroll-driven animations to reveal sections smoothly.",
+      "wave": 6,
+      "parallel": true,
+      "dependsOn": ["5.1"],
+      "file": "src/components/motion/ScrollReveal.tsx",
+      "type": "enhancement",
+      "estimate": "20 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": true
+      },
+      "acceptance": [
+        "Applies fade-in-up transforms to elements as they slide into view",
+        "Leverages native CSS scroll-driven animation properties where possible for INP optimization"
+      ],
+      "testFile": "src/components/motion/__tests__/ScrollReveal.test.tsx"
+    },
+    {
+      "id": "7.1",
+      "name": "jsonld-schema",
+      "title": "JSON-LD Structured Data",
+      "description": "Create dynamic JSON-LD injection script rendering semantic schema descriptors for search engines.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.2"],
+      "file": "src/components/seo/JsonLd.tsx",
+      "type": "seo",
+      "estimate": "15 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Injects correctly formatted application/ld+json schema scripts",
+        "Supports dynamic values matching page inputs"
+      ]
+    },
+    {
+      "id": "7.2",
+      "name": "sitemap",
+      "title": "Dynamic Sitemap Generator",
+      "description": "Configure Next.js sitemap.ts route generating full indexing details dynamically.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.2"],
+      "file": "src/app/sitemap.ts",
+      "type": "seo",
+      "estimate": "10 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Resolves routes dynamically, generating valid sitemap XML schema",
+        "Appends proper update frequencies and priority coefficients"
+      ]
+    },
+    {
+      "id": "7.3",
+      "name": "robots-txt",
+      "title": "Robots.txt Configuration",
+      "description": "Configure Next.js robots.ts route mapping access settings for crawlers.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.2"],
+      "file": "src/app/robots.ts",
+      "type": "seo",
+      "estimate": "5 min",
+      "validation": {
+        "typescript": true,
+        "test": false,
+        "visual": false
+      },
+      "acceptance": [
+        "Resolves valid crawler rules outputting correct robots.txt syntax",
+        "Links to generated sitemap URL location"
+      ]
+    },
+    {
+      "id": "7.4",
+      "name": "inp-optimization",
+      "title": "INP & Web Vitals Optimization",
+      "description": "Audit and optimize Interaction to Next Paint (INP) by lazy-loading non-critical scripts (e.g. tracking), code splitting components, and using requestIdleCallback for background tasks.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.2"],
+      "file": "src/lib/performance.ts",
+      "type": "seo",
+      "estimate": "30 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Implements route-level deferred execution for analytical tracking APIs",
+        "Optimizes input event handling to return execution threads back to main window quickly",
+        "Maintains Interaction to Next Paint (INP) latency under 200ms in stress testing"
+      ],
+      "testFile": "src/lib/__tests__/performance.test.ts"
+    },
+    {
+      "id": "7.5",
+      "name": "privacy-guardrails",
+      "title": "HIPAA & DPDP Data Privacy Guardrails",
+      "description": "Implement data sanitization, client-side data hashing, and secure transit boundaries for patient triage details to meet PHI compliance standards.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.2"],
+      "file": "src/lib/security.ts",
+      "type": "seo",
+      "estimate": "25 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Sanitizes triage payloads to remove direct identifiers prior to log indexing",
+        "Encrypts or hashes sensitive patient concern descriptions in transfer payloads",
+        "Includes GDPR/DPDP-compliant cookie and medical data processing disclaimer consents"
+      ],
+      "testFile": "src/lib/__tests__/security.test.ts"
+    },
+    {
+      "id": "7.6",
+      "name": "playwright-e2e",
+      "title": "Playwright E2E Regression Suite",
+      "description": "Set up Playwright test suites to automate end-to-end user flows for conversational forms, Command Bar accessibility, and chatbot widget states.",
+      "wave": 7,
+      "parallel": true,
+      "dependsOn": ["5.1"],
+      "file": "__tests__/e2e/booking.spec.ts",
+      "type": "seo",
+      "estimate": "35 min",
+      "validation": {
+        "typescript": true,
+        "test": true,
+        "visual": false
+      },
+      "acceptance": [
+        "Automates typing, navigation, and validation triggers on multi-step ContactForm",
+        "Simulates Cmd+K keys to open CommandBar and asserts focus trapping",
+        "E2E test suite executes clean runs on desktop and mobile viewports"
+      ],
+      "testFile": "__tests__/e2e/booking.spec.ts"
+    }
+  ],
+
+  "edges": [
+    {"from": "1.1", "to": "2.1"},
+    {"from": "1.1", "to": "2.2"},
+    {"from": "1.1", "to": "2.3"},
+    {"from": "1.1", "to": "2.4"},
+    {"from": "1.1", "to": "2.5"},
+    {"from": "1.1", "to": "2.6"},
+    {"from": "1.1", "to": "2.7"},
+    {"from": "1.1", "to": "3.1"},
+    {"from": "1.1", "to": "5.3"},
+    {"from": "1.2", "to": "2.1"},
+    {"from": "1.2", "to": "2.2"},
+    {"from": "1.2", "to": "2.3"},
+    {"from": "1.2", "to": "2.4"},
+    {"from": "1.2", "to": "2.5"},
+    {"from": "1.2", "to": "2.6"},
+    {"from": "1.2", "to": "2.7"},
+    {"from": "1.2", "to": "1.4"},
+    {"from": "1.3", "to": "2.1"},
+    {"from": "1.3", "to": "2.2"},
+    {"from": "1.3", "to": "2.3"},
+    {"from": "1.3", "to": "3.3"},
+    {"from": "1.4", "to": "1.5"},
+    {"from": "1.5", "to": "2.6"},
+    {"from": "1.5", "to": "4.7"},
+    {"from": "2.1", "to": "3.3"},
+    {"from": "2.1", "to": "3.4"},
+    {"from": "2.1", "to": "4.1"},
+    {"from": "2.1", "to": "4.8"},
+    {"from": "2.2", "to": "3.3"},
+    {"from": "2.2", "to": "4.7"},
+    {"from": "2.2", "to": "4.8"},
+    {"from": "2.3", "to": "4.3"},
+    {"from": "2.3", "to": "4.4"},
+    {"from": "2.3", "to": "4.5"},
+    {"from": "2.4", "to": "3.4"},
+    {"from": "2.4", "to": "3.5"},
+    {"from": "2.4", "to": "4.1"},
+    {"from": "2.4", "to": "4.8"},
+    {"from": "2.5", "to": "3.2"},
+    {"from": "2.5", "to": "3.4"},
+    {"from": "2.6", "to": "4.7"},
+    {"from": "3.1", "to": "3.2"},
+    {"from": "3.1", "to": "3.3"},
+    {"from": "3.1", "to": "3.4"},
+    {"from": "3.1", "to": "3.5"},
+    {"from": "3.1", "to": "4.1"},
+    {"from": "3.1", "to": "4.2"},
+    {"from": "3.1", "to": "4.3"},
+    {"from": "3.1", "to": "4.4"},
+    {"from": "3.1", "to": "4.5"},
+    {"from": "3.1", "to": "4.6"},
+    {"from": "3.1", "to": "4.7"},
+    {"from": "3.1", "to": "4.8"},
+    {"from": "3.1", "to": "5.2"},
+    {"from": "3.2", "to": "3.4"},
+    {"from": "3.3", "to": "3.4"},
+    {"from": "3.4", "to": "5.1"},
+    {"from": "3.5", "to": "5.1"},
+    {"from": "4.1", "to": "5.1"},
+    {"from": "4.2", "to": "5.1"},
+    {"from": "4.3", "to": "5.1"},
+    {"from": "4.4", "to": "5.1"},
+    {"from": "4.5", "to": "5.1"},
+    {"from": "4.6", "to": "5.1"},
+    {"from": "4.7", "to": "5.1"},
+    {"from": "4.8", "to": "5.1"},
+    {"from": "5.1", "to": "6.1"},
+    {"from": "5.1", "to": "6.2"},
+    {"from": "5.1", "to": "6.3"},
+    {"from": "5.1", "to": "5.4"},
+    {"from": "5.2", "to": "5.4"},
+    {"from": "5.2", "to": "7.1"},
+    {"from": "5.2", "to": "7.2"},
+    {"from": "5.2", "to": "7.3"},
+    {"from": "5.2", "to": "7.4"},
+    {"from": "5.2", "to": "7.5"},
+    {"from": "5.1", "to": "7.6"}
+  ],
+
+  "waves": {
+    "1": {
+      "name": "Foundation",
+      "execution": "sequential",
+      "nodes": ["1.1", "1.2", "1.3", "1.4", "1.5"],
+      "description": "CSS token structures, global TypeScript models, helper functions, AI integration core client, and API firewalls"
+    },
+    "2": {
+      "name": "Base Components",
+      "execution": "parallel",
+      "nodes": ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"],
+      "description": "Standard interactive primitives and AI response elements"
+    },
+    "3": {
+      "name": "Layout & Theme",
+      "execution": "parallel",
+      "nodes": ["3.1", "3.2", "3.3", "3.4", "3.5"],
+      "description": "Global frame structures, themes, sidebars, and keyboard command menus"
+    },
+    "4": {
+      "name": "Page Sections",
+      "execution": "parallel",
+      "nodes": ["4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7", "4.8"],
+      "description": "Modular layout blocks and AI Playground integration"
+    },
+    "5": {
+      "name": "Integration",
+      "execution": "sequential",
+      "nodes": ["5.1", "5.2", "5.3", "5.4"],
+      "description": "Assembling segments in root files, layout configuration, PPR loading shells, and global CSS loaders"
+    },
+    "6": {
+      "name": "Animations",
+      "execution": "parallel",
+      "nodes": ["6.1", "6.2", "6.3"],
+      "description": "Native View Transitions, counting routines, and scroll viewport visibility hooks"
+    },
+    "7": {
+      "name": "SEO & Performance",
+      "execution": "parallel",
+      "nodes": ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6"],
+      "description": "Structured JSON-LD, generators for dynamic search routes, INP performance enhancements, data compliance, and automated E2E test suites"
+    }
+  },
+
+  "stats": {
+    "totalNodes": 38,
+    "totalWaves": 7,
+    "estimatedTime": "10-12 hours",
+    "parallelizableNodes": 28,
+    "criticalPath": ["1.1", "3.1", "3.4", "5.1"]
+  }
+}

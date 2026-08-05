@@ -45,6 +45,7 @@ const securityHeaders = [
 
 /* ── Next.js Config ─────────────────────────────────────────────────────── */
 const nextConfig: NextConfig = {
+  cacheComponents: true,
   images: {
     formats: ['image/avif', 'image/webp'],
   },

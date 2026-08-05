@@ -73,6 +73,10 @@
 
   /* Section Spacing */
   --section-padding: clamp(4rem, 10vw, 8rem);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.4);
 }
 
 /* ── Dark Mode Overrides ────────────────────────────────────────────────── */
@@ -89,6 +93,10 @@
   /* Saffron Gold for dark mode elements */
   --color-primary-400: #D4AF37;
   --color-primary-500: #D4AF37;
+
+  /* Glassmorphism Dark */
+  --glass-bg: rgba(10, 10, 10, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 /* ── Base Styles ────────────────────────────────────────────────────────── */
@@ -201,6 +209,13 @@ body {
 }
 
 /* ── Utility Classes ────────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
 }
