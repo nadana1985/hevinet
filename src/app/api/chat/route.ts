@@ -1,8 +1,6 @@
 import { streamText } from 'ai';
 import { defaultModel, systemPrompt } from '@/lib/ai';
 
-export const runtime = 'edge';
-
 /**
  * AI chat route processing user prompts and returning a text stream.
  */
