@@ -197,9 +197,10 @@ function mountScrollWorld(container, config) {
   }
 
   function loadClip(s) {
-    // Under prefers-reduced-motion we never load the clips at all — the stills stay up
-    // and simply cross-dissolve as you scroll. No scrubbed video motion, no decode cost.
-    if (reduce || s.loading || !s.clip) return;
+    // Under prefers-reduced-motion or on mobile without a dedicated clipMobile encode,
+    // we do not load heavy desktop clips — the high-res isometric stills stay up
+    // and smoothly cross-dissolve as you scroll with zero mobile video lag.
+    if (reduce || s.loading || !s.clip || (isMobile() && !s.clipM)) return;
     s.loading = true;
     // Serve the lighter mobile encode on phones when one was provided.
     const url = (isMobile() && s.clipM) ? s.clipM : s.clip;
