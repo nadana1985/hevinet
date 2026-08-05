@@ -432,13 +432,18 @@ function injectCSS() {
   .sw-track{position:relative;z-index:1;width:100%;pointer-events:none;}
   @media (max-width:860px){
     .sw-nav{display:none;}
-    .sw-copylayer::before{width:100%;height:60%;top:auto;bottom:0;background:linear-gradient(0deg,var(--sw-bg) 8%,color-mix(in srgb,var(--sw-bg) 70%,transparent) 46%,transparent 100%);}
-    /* Anchor copy to the bottom, clear of the home indicator / collapsing URL bar.
-       dvh + env() are progressive: browsers that lack them keep the vh fallback line. */
-    .sw-copy{left:clamp(18px,5vw,64px);right:clamp(18px,5vw,64px);top:auto;bottom:clamp(64px,14vh,120px);transform:none;width:auto;max-width:560px;}
-    .sw-copy{bottom:calc(clamp(56px,12dvh,110px) + env(safe-area-inset-bottom));}
-    .sw-copy__title{font-size:clamp(1.9rem,7.5vw,2.7rem);}
-    .sw-copy__body{max-width:none;font-size:clamp(.98rem,3.6vw,1.1rem);} .sw-scene__video,.sw-scene__still{object-position:center 46%;}
+    .sw-copylayer::before{width:100%;height:50%;top:auto;bottom:0;background:linear-gradient(0deg,rgba(9,13,22,0.92) 0%,rgba(9,13,22,0.5) 60%,transparent 100%);}
+    .sw-copy{left:14px;right:14px;top:auto;bottom:clamp(70px,11dvh,95px);transform:none;width:auto;max-width:none;padding:16px 18px;border-radius:18px;background:rgba(15,23,42,0.72);backdrop-filter:blur(18px);}
+    .sw-copy{bottom:calc(clamp(68px,10dvh,92px) + env(safe-area-inset-bottom));}
+    .sw-copy__num{font-size:.7rem;letter-spacing:.12em;}
+    .sw-copy__eyebrow{margin-top:3px;font-size:.72rem;letter-spacing:.12em;}
+    .sw-copy__title{font-size:clamp(1.2rem,5vw,1.5rem);margin:4px 0 0;line-height:1.15;}
+    .sw-copy__body{margin-top:6px;font-size:.85rem;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .sw-copy__tags{margin-top:10px;gap:6px;}
+    .sw-copy__tags li{font-size:.7rem;padding:3px 10px;}
+    .sw-copy__cta{margin-top:12px;gap:8px;}
+    .sw-btn{padding:9px 18px;font-size:.84rem;}
+    .sw-scene__video,.sw-scene__still{object-position:center 30%;}
     .sw-hint{bottom:calc(20px + env(safe-area-inset-bottom));}
     .sw-route{gap:16px;right:6px;} .sw-route__label{display:none;}
   }

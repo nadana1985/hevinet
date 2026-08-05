@@ -20,8 +20,8 @@ export function ScrollWorldHero() {
 
       (window as any).mountScrollWorld(containerRef.current, {
         hint: 'scroll to explore regional origins',
-        diveScroll: 1.3,
-        connScroll: 0.7,
+        diveScroll: 1.8,
+        connScroll: 0.9,
         nav: false,
         atmosphere: true,
         sections: [
